@@ -60,14 +60,28 @@ const mapStateToProps = createStructuredSelector({
 });
 
 class Distribution extends PureComponent<Props, *> {
+  state = {
+    highlight: "",
+  };
   static navigationOptions = {
     title: i18next.t("distribution.header"),
     headerLeft: null,
   };
 
-  renderItem = ({ item }: { item: DistributionItem }) => (
-    <DistributionCard item={item} />
+  renderItem = ({ item, index }: { item: DistributionItem }) => (
+    <DistributionCard
+      item={item}
+      highlighting={index === this.state.highlight}
+    />
   );
+
+  selectedKey = index => {
+    this.setState({ highlight: index });
+    console.log("selected id", index);
+    if (typeof index === "number") {
+      this.flatListRef.scrollToIndex({ index });
+    }
+  };
 
   keyExtractor = item => item.id;
 
@@ -78,7 +92,10 @@ class Distribution extends PureComponent<Props, *> {
       <View>
         <View style={styles.header}>
           <View style={styles.chartWrapper}>
-            <RingChart data={distribution.list} />
+            <RingChart
+              selectedKey={this.selectedKey}
+              data={distribution.list}
+            />
             <View style={styles.assetWrapper}>
               <LText tertiary style={styles.assetCount}>
                 {distribution.list.length}
@@ -110,12 +127,16 @@ class Distribution extends PureComponent<Props, *> {
   render() {
     const { distribution } = this.props;
 
+    const Header = this.ListHeaderComponent;
     return (
       <SafeAreaView style={styles.wrapper}>
         <TrackScreen category="Distribution" />
+        <Header />
         <FlatList
+          ref={ref => {
+            this.flatListRef = ref;
+          }}
           data={distribution.list}
-          ListHeaderComponent={this.ListHeaderComponent}
           renderItem={this.renderItem}
           keyExtractor={this.keyExtractor}
           style={styles.root}
@@ -144,21 +165,22 @@ const styles = StyleSheet.create({
     fontSize: 16,
     lineHeight: 24,
     color: colors.darkBlue,
-    marginBottom: 16,
+    marginBottom: 8,
+    marginLeft: 16,
   },
   header: {
     backgroundColor: colors.white,
     borderRadius: 4,
     paddingHorizontal: 16,
-    paddingVertical: 34,
     marginBottom: 24,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
+    margin: 16,
   },
   chartWrapper: {
-    height: 116,
-    width: 116,
+    height: 180,
+    width: 180,
     marginRight: 15,
   },
 
