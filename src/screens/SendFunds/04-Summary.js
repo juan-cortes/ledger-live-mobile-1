@@ -48,6 +48,7 @@ class SendSummary extends Component<
     totalSpent: ?BigNumber,
     error: ?Error,
     highFeesOpen: boolean,
+    maxAmount?: BigNumber,
   },
 > {
   static navigationOptions = {
@@ -66,6 +67,7 @@ class SendSummary extends Component<
     totalSpent: null,
     error: null, // TODO use error somewhere!
     highFeesOpen: false,
+    maxAmount: undefined,
   };
 
   componentDidMount() {
@@ -126,6 +128,16 @@ class SendSummary extends Component<
     const transaction = navigation.getParam("transaction");
     const bridge = getAccountBridge(account);
     const nonce = ++this.nonceTotalSpent;
+    const useAllAmount = bridge.getTransactionExtra(
+      account,
+      transaction,
+      "useAllAmount",
+    );
+    let maxAmount;
+    if (useAllAmount) {
+      maxAmount = await bridge.getMaxAmount(account, transaction);
+    }
+
     try {
       const totalSpent = await bridge.getTotalSpent(account, transaction);
       if (nonce !== this.nonceTotalSpent) return;
@@ -138,11 +150,13 @@ class SendSummary extends Component<
           !old.error &&
           old.totalSpent &&
           totalSpent &&
-          totalSpent.eq(old.totalSpent)
+          totalSpent.eq(old.totalSpent) &&
+          (!maxAmount ||
+            (maxAmount && old.maxAmount && maxAmount.eq(old.maxAmount)))
         ) {
           return null;
         }
-        return { totalSpent, error: null };
+        return { totalSpent, error: null, maxAmount };
       });
     } catch (e) {
       if (nonce !== this.nonceTotalSpent) return;
@@ -169,19 +183,24 @@ class SendSummary extends Component<
   };
 
   render() {
-    const { totalSpent, error, highFeesOpen } = this.state;
+    const { totalSpent, error, highFeesOpen, maxAmount } = this.state;
     const { account, navigation } = this.props;
     const transaction = navigation.getParam("transaction");
     const bridge = getAccountBridge(account);
     const amount = bridge.getTransactionAmount(account, transaction);
     const recipient = bridge.getTransactionRecipient(account, transaction);
+    const useAllAmount = bridge.getTransactionExtra(
+      account,
+      transaction,
+      "useAllAmount",
+    );
 
     return (
       <SafeAreaView style={styles.root}>
         <TrackScreen category="SendFunds" name="Summary" />
         <ScrollView style={styles.body}>
           <SummaryFromSection account={account} />
-          <VerticalConnector />
+          <View style={styles.verticalConnector} />
           <SummaryToSection recipient={recipient} />
           <SendRowsCustom
             transaction={transaction}
@@ -189,7 +208,10 @@ class SendSummary extends Component<
             navigation={navigation}
           />
           <SectionSeparator lineColor={colors.lightFog} />
-          <SummaryAmountSection account={account} amount={amount} />
+          <SummaryAmountSection
+            account={account}
+            amount={useAllAmount && maxAmount ? maxAmount : amount}
+          />
           <SendRowsFee
             account={account}
             transaction={transaction}
@@ -272,9 +294,3 @@ const mapStateToProps = (state, props) => ({
 });
 
 export default connect(mapStateToProps)(translate()(SendSummary));
-
-class VerticalConnector extends Component<*> {
-  render() {
-    return <View style={styles.verticalConnector} />;
-  }
-}

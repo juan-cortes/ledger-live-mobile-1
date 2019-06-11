@@ -30,6 +30,7 @@ type OwnProps = {
   value: BigNumber,
   onChange: BigNumber => void,
   error?: Error,
+  editable?: boolean,
 };
 
 type Props = OwnProps & {
@@ -48,6 +49,10 @@ class AmountInput extends Component<Props, OwnState> {
 
   state = {
     active: "crypto",
+  };
+
+  static defaultProps = {
+    editable: true,
   };
 
   componentDidMount() {
@@ -95,6 +100,7 @@ class AmountInput extends Component<Props, OwnState> {
       getCounterValue,
       account,
       error,
+      editable,
     } = this.props;
     const isCrypto = active === "crypto";
     const fiat = value ? getCounterValue(value) : BigNumber(0);
@@ -104,6 +110,7 @@ class AmountInput extends Component<Props, OwnState> {
         <View style={styles.wrapper}>
           <CurrencyInput
             isActive={isCrypto}
+            editable={editable}
             onFocus={this.onCryptoFieldFocus}
             onChange={this.onCryptoFieldChange}
             unit={account.unit}
@@ -131,7 +138,7 @@ class AmountInput extends Component<Props, OwnState> {
             unit={rightUnit}
             value={value ? fiat : null}
             placeholder={!fiat ? t("send.amount.noRateProvider") : undefined}
-            editable={!!fiat}
+            editable={!!fiat && editable}
             showAllDigits
             renderRight={
               <LText

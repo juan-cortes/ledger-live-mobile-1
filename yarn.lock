@@ -791,10 +791,10 @@
     "@ledgerhq/errors" "^4.61.0"
     events "^3.0.0"
 
-"@ledgerhq/live-common@^6.3.0":
-  version "6.3.0"
-  resolved "https://registry.yarnpkg.com/@ledgerhq/live-common/-/live-common-6.3.0.tgz#d508211d6a78bf4555433d6127b0287041013661"
-  integrity sha512-qNd/eiAzX61rJsue9K0CJweFxbtmhcSDOk8HaauyMSdRgxhjtPg4eAggjYkfojOGKK98eSJtPeEzaeTlEcBrYg==
+"@ledgerhq/live-common@^6.4.0":
+  version "6.4.0"
+  resolved "https://registry.yarnpkg.com/@ledgerhq/live-common/-/live-common-6.4.0.tgz#e4ec53994c28a1968f315fa45abbcd02d8b8129f"
+  integrity sha512-guyLHxTi3U2X3a2e+dGxEU7en9WkgZzsUgLtLnuB8NQjwxjpa8ifhUKVSFsZGWh0rKQqG+ZcI797cGJlGMjg+A==
   dependencies:
     "@ledgerhq/errors" "4.61.0"
     "@ledgerhq/hw-app-btc" "4.61.0"
@@ -819,7 +819,7 @@
     ripple-binary-codec "^0.2.0"
     ripple-bs58check "^2.0.2"
     ripple-hashes "^0.3.1"
-    ripple-lib "^1.2.3"
+    ripple-lib "^1.2.4"
     rxjs "^6.5.2"
     rxjs-compat "^6.5.2"
 
@@ -7858,7 +7858,7 @@ ripple-lib-transactionparser@0.7.1:
     bignumber.js "^4.1.0"
     lodash "^4.17.4"
 
-ripple-lib@^1.2.3:
+ripple-lib@^1.2.4:
   version "1.2.4"
   resolved "https://registry.yarnpkg.com/ripple-lib/-/ripple-lib-1.2.4.tgz#834c318aae1a255beb9a57bc2b36a08cf9226019"
   integrity sha512-hmlj+AIisg4XuSS4ee4uhB9Glc/kM02ZNfl7KF336NDPu81vhqJuR8pikSGwJ/Ay7wIVrP9ny1zR/6FI6lZTZg==

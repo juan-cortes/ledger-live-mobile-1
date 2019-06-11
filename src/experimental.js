@@ -51,6 +51,12 @@ export const experimentalFeatures: Feature[] = [
     title: "Experimental Core",
     description: "Enable experimental Ledger lib-core features.",
   },
+  {
+    type: "toggle",
+    name: "EXPERIMENTAL_SEND_MAX",
+    title: "Experimental Send Max",
+    description: "Enable support for send max feature.",
+  },
 ];
 
 const storageKey = "experimentalFlags";
