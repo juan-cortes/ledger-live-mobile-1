@@ -3,6 +3,7 @@
 import { createSelector, createStructuredSelector } from "reselect";
 import isEqual from "lodash/isEqual";
 import { sortAccounts } from "@ledgerhq/live-common/lib/account";
+import { withLibcore } from "@ledgerhq/live-common/lib/libcore/access";
 import CounterValues from "../countervalues";
 import {
   intermediaryCurrency,
@@ -53,6 +54,11 @@ const delay = ms => new Promise(success => setTimeout(success, ms));
 export const cleanCache = () => async (dispatch: *) => {
   dispatch({ type: "CLEAN_CACHE" });
   dispatch({ type: "LEDGER_CV:WIPE" });
+
+  await withLibcore(async libcore => {
+    await libcore.getPoolInstance().freshResetAll();
+  });
+
   await delay(100);
   // TODO we must wait the sync to finish / stop it otherwise there can be dereferenced pointer issue.
   flushAll();
