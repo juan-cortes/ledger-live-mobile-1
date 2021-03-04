@@ -1216,10 +1216,10 @@
     "@ledgerhq/errors" "^5.43.0"
     events "^3.2.0"
 
-"@ledgerhq/live-common@18.5.5-swap-api-v2.5":
-  version "18.5.5-swap-api-v2.5"
-  resolved "https://registry.yarnpkg.com/@ledgerhq/live-common/-/live-common-18.5.5-swap-api-v2.5.tgz#5ba8e6f64ae2981cda814707e05d45092d03a9c6"
-  integrity sha512-DZgHfdJ+97YmwGIQbw1sWOMGDFmMzeHDxATyUju2FZFkCoReo79JDdEaFytSZU2ssBBx0CQOp4oQHEVGL9+4XQ==
+"@ledgerhq/live-common@18.5.5-swap-api-v2.7":
+  version "18.5.5-swap-api-v2.7"
+  resolved "https://registry.yarnpkg.com/@ledgerhq/live-common/-/live-common-18.5.5-swap-api-v2.7.tgz#baa306de6c749e1646e00b01e3a545e39465b54d"
+  integrity sha512-u0o5Kky6Uaglnspe28j0N2nQxgNjcKX2DdNH0dh5TBWFW+OXu+TB7J9vK9t89J+SLpO6RFDBn8wn/cMgj/JX1Q==
   dependencies:
     "@ledgerhq/compressjs" "1.3.2"
     "@ledgerhq/cryptoassets" "5.44.1"
